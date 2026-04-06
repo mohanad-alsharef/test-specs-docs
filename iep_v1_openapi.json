@@ -42,6 +42,22 @@
       "description": "Operations for Academic Year documents"
     },
     {
+      "name": "Assessment Plan",
+      "description": "Operations for Assessment Plan documents"
+    },
+    {
+      "name": "Assessment Plan Details",
+      "description": "Operations for Assessment Plan Details documents"
+    },
+    {
+      "name": "Assessment Task",
+      "description": "Operations for Assessment Task documents"
+    },
+    {
+      "name": "Assessment Task Setup",
+      "description": "Operations for Assessment Task Setup documents"
+    },
+    {
       "name": "Campus",
       "description": "Operations for Campus documents"
     },
@@ -120,6 +136,10 @@
     {
       "name": "Student Course Registration",
       "description": "Operations for Student Course Registration documents"
+    },
+    {
+      "name": "Student Evaluation",
+      "description": "Operations for Student Evaluation documents"
     },
     {
       "name": "Student Results",
@@ -411,7 +431,7 @@
           "500": {
             "description": "Internal server error"
           },
-          "200": {
+          "204": {
             "description": "Document deleted successfully"
           }
         },
@@ -674,7 +694,7 @@
           "500": {
             "description": "Internal server error"
           },
-          "200": {
+          "204": {
             "description": "Document deleted successfully"
           }
         },
@@ -937,7 +957,7 @@
           "500": {
             "description": "Internal server error"
           },
-          "200": {
+          "204": {
             "description": "Document deleted successfully"
           }
         },
@@ -1200,7 +1220,7 @@
           "500": {
             "description": "Internal server error"
           },
-          "200": {
+          "204": {
             "description": "Document deleted successfully"
           }
         },
@@ -1463,7 +1483,7 @@
           "500": {
             "description": "Internal server error"
           },
-          "200": {
+          "204": {
             "description": "Document deleted successfully"
           }
         },
@@ -1726,7 +1746,7 @@
           "500": {
             "description": "Internal server error"
           },
-          "200": {
+          "204": {
             "description": "Document deleted successfully"
           }
         },
@@ -1989,7 +2009,7 @@
           "500": {
             "description": "Internal server error"
           },
-          "200": {
+          "204": {
             "description": "Document deleted successfully"
           }
         },
@@ -2252,7 +2272,7 @@
           "500": {
             "description": "Internal server error"
           },
-          "200": {
+          "204": {
             "description": "Document deleted successfully"
           }
         },
@@ -2515,7 +2535,7 @@
           "500": {
             "description": "Internal server error"
           },
-          "200": {
+          "204": {
             "description": "Document deleted successfully"
           }
         },
@@ -2778,7 +2798,7 @@
           "500": {
             "description": "Internal server error"
           },
-          "200": {
+          "204": {
             "description": "Document deleted successfully"
           }
         },
@@ -3041,7 +3061,7 @@
           "500": {
             "description": "Internal server error"
           },
-          "200": {
+          "204": {
             "description": "Document deleted successfully"
           }
         },
@@ -3304,7 +3324,7 @@
           "500": {
             "description": "Internal server error"
           },
-          "200": {
+          "204": {
             "description": "Document deleted successfully"
           }
         },
@@ -3567,7 +3587,7 @@
           "500": {
             "description": "Internal server error"
           },
-          "200": {
+          "204": {
             "description": "Document deleted successfully"
           }
         },
@@ -3830,11 +3850,1063 @@
           "500": {
             "description": "Internal server error"
           },
-          "200": {
+          "204": {
             "description": "Document deleted successfully"
           }
         },
         "operationId": "iep_delete_track_by_id"
+      }
+    },
+    "/api/resource/Assessment Plan": {
+      "get": {
+        "tags": [
+          "Assessment Plan"
+        ],
+        "summary": "List Assessment Plan documents",
+        "description": "Retrieve a list of Assessment Plan documents with optional filtering and pagination",
+        "parameters": [
+          {
+            "name": "fields",
+            "in": "query",
+            "description": "JSON array of fieldnames to include. Pass the value as a JSON-encoded list in the query string. example: [\"name\", \"title\", \"status\"]",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "filters",
+            "in": "query",
+            "description": "JSON array of filter conditions. Each condition is an array in the form [Doctype, field, operator, value]. Combine multiple conditions in a single outer array. example: [[\"User\", \"enabled\", \"=\", 1], [\"Class Enrollment\", \"course\", \"=\", \"ACC203\"]]",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit_start",
+            "in": "query",
+            "description": "Starting index for pagination",
+            "schema": {
+              "type": "integer",
+              "default": 0
+            }
+          },
+          {
+            "name": "limit_page_length",
+            "in": "query",
+            "description": "Number of records per page",
+            "schema": {
+              "type": "integer",
+              "default": 20
+            }
+          },
+          {
+            "name": "order_by",
+            "in": "query",
+            "description": "Field to order by (add 'desc' for descending)",
+            "schema": {
+              "type": "string"
+            },
+            "example": "modified desc"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/AssessmentPlan"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden - Insufficient permissions"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "operationId": "iep_get_assessment_plan"
+      },
+      "post": {
+        "tags": [
+          "Assessment Plan"
+        ],
+        "summary": "Create Assessment Plan document",
+        "description": "Create a new Assessment Plan document",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AssessmentPlancreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Document created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/AssessmentPlan"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request - Invalid data"
+          },
+          "403": {
+            "description": "Forbidden - Insufficient permissions"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "operationId": "iep_post_assessment_plan"
+      }
+    },
+    "/api/resource/Assessment Plan/{name}": {
+      "get": {
+        "tags": [
+          "Assessment Plan"
+        ],
+        "summary": "Get Assessment Plan document",
+        "description": "Retrieve a specific Assessment Plan document by name",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "description": "Document name/ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/AssessmentPlan"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Document not found"
+          },
+          "403": {
+            "description": "Forbidden - Insufficient permissions"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "operationId": "iep_get_assessment_plan_by_id"
+      },
+      "put": {
+        "tags": [
+          "Assessment Plan"
+        ],
+        "summary": "Update Assessment Plan document",
+        "description": "Update an existing Assessment Plan document",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "description": "Document name/ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AssessmentPlanupdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Document updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/AssessmentPlan"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request - Invalid data"
+          },
+          "404": {
+            "description": "Document not found"
+          },
+          "403": {
+            "description": "Forbidden - Insufficient permissions"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "operationId": "iep_put_assessment_plan_by_id"
+      },
+      "delete": {
+        "tags": [
+          "Assessment Plan"
+        ],
+        "summary": "Delete Assessment Plan document",
+        "description": "Delete a specific Assessment Plan document",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "description": "Document name/ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Document not found"
+          },
+          "403": {
+            "description": "Forbidden - Insufficient permissions"
+          },
+          "500": {
+            "description": "Internal server error"
+          },
+          "204": {
+            "description": "Document deleted successfully"
+          }
+        },
+        "operationId": "iep_delete_assessment_plan_by_id"
+      }
+    },
+    "/api/resource/Assessment Plan Details": {
+      "get": {
+        "tags": [
+          "Assessment Plan Details"
+        ],
+        "summary": "List Assessment Plan Details documents",
+        "description": "Retrieve a list of Assessment Plan Details documents with optional filtering and pagination",
+        "parameters": [
+          {
+            "name": "fields",
+            "in": "query",
+            "description": "JSON array of fieldnames to include. Pass the value as a JSON-encoded list in the query string. example: [\"name\", \"title\", \"status\"]",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "filters",
+            "in": "query",
+            "description": "JSON array of filter conditions. Each condition is an array in the form [Doctype, field, operator, value]. Combine multiple conditions in a single outer array. example: [[\"User\", \"enabled\", \"=\", 1], [\"Class Enrollment\", \"course\", \"=\", \"ACC203\"]]",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit_start",
+            "in": "query",
+            "description": "Starting index for pagination",
+            "schema": {
+              "type": "integer",
+              "default": 0
+            }
+          },
+          {
+            "name": "limit_page_length",
+            "in": "query",
+            "description": "Number of records per page",
+            "schema": {
+              "type": "integer",
+              "default": 20
+            }
+          },
+          {
+            "name": "order_by",
+            "in": "query",
+            "description": "Field to order by (add 'desc' for descending)",
+            "schema": {
+              "type": "string"
+            },
+            "example": "modified desc"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/AssessmentPlanDetails"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden - Insufficient permissions"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "operationId": "iep_get_assessment_plan_details"
+      },
+      "post": {
+        "tags": [
+          "Assessment Plan Details"
+        ],
+        "summary": "Create Assessment Plan Details document",
+        "description": "Create a new Assessment Plan Details document",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AssessmentPlanDetailscreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Document created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/AssessmentPlanDetails"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request - Invalid data"
+          },
+          "403": {
+            "description": "Forbidden - Insufficient permissions"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "operationId": "iep_post_assessment_plan_details"
+      }
+    },
+    "/api/resource/Assessment Plan Details/{name}": {
+      "get": {
+        "tags": [
+          "Assessment Plan Details"
+        ],
+        "summary": "Get Assessment Plan Details document",
+        "description": "Retrieve a specific Assessment Plan Details document by name",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "description": "Document name/ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/AssessmentPlanDetails"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Document not found"
+          },
+          "403": {
+            "description": "Forbidden - Insufficient permissions"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "operationId": "iep_get_assessment_plan_details_by_id"
+      },
+      "put": {
+        "tags": [
+          "Assessment Plan Details"
+        ],
+        "summary": "Update Assessment Plan Details document",
+        "description": "Update an existing Assessment Plan Details document",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "description": "Document name/ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AssessmentPlanDetailsupdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Document updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/AssessmentPlanDetails"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request - Invalid data"
+          },
+          "404": {
+            "description": "Document not found"
+          },
+          "403": {
+            "description": "Forbidden - Insufficient permissions"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "operationId": "iep_put_assessment_plan_details_by_id"
+      },
+      "delete": {
+        "tags": [
+          "Assessment Plan Details"
+        ],
+        "summary": "Delete Assessment Plan Details document",
+        "description": "Delete a specific Assessment Plan Details document",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "description": "Document name/ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Document not found"
+          },
+          "403": {
+            "description": "Forbidden - Insufficient permissions"
+          },
+          "500": {
+            "description": "Internal server error"
+          },
+          "204": {
+            "description": "Document deleted successfully"
+          }
+        },
+        "operationId": "iep_delete_assessment_plan_details_by_id"
+      }
+    },
+    "/api/resource/Assessment Task": {
+      "get": {
+        "tags": [
+          "Assessment Task"
+        ],
+        "summary": "List Assessment Task documents",
+        "description": "Retrieve a list of Assessment Task documents with optional filtering and pagination",
+        "parameters": [
+          {
+            "name": "fields",
+            "in": "query",
+            "description": "JSON array of fieldnames to include. Pass the value as a JSON-encoded list in the query string. example: [\"name\", \"title\", \"status\"]",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "filters",
+            "in": "query",
+            "description": "JSON array of filter conditions. Each condition is an array in the form [Doctype, field, operator, value]. Combine multiple conditions in a single outer array. example: [[\"User\", \"enabled\", \"=\", 1], [\"Class Enrollment\", \"course\", \"=\", \"ACC203\"]]",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit_start",
+            "in": "query",
+            "description": "Starting index for pagination",
+            "schema": {
+              "type": "integer",
+              "default": 0
+            }
+          },
+          {
+            "name": "limit_page_length",
+            "in": "query",
+            "description": "Number of records per page",
+            "schema": {
+              "type": "integer",
+              "default": 20
+            }
+          },
+          {
+            "name": "order_by",
+            "in": "query",
+            "description": "Field to order by (add 'desc' for descending)",
+            "schema": {
+              "type": "string"
+            },
+            "example": "modified desc"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/AssessmentTask"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden - Insufficient permissions"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "operationId": "iep_get_assessment_task"
+      },
+      "post": {
+        "tags": [
+          "Assessment Task"
+        ],
+        "summary": "Create Assessment Task document",
+        "description": "Create a new Assessment Task document",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AssessmentTaskcreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Document created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/AssessmentTask"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request - Invalid data"
+          },
+          "403": {
+            "description": "Forbidden - Insufficient permissions"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "operationId": "iep_post_assessment_task"
+      }
+    },
+    "/api/resource/Assessment Task/{name}": {
+      "get": {
+        "tags": [
+          "Assessment Task"
+        ],
+        "summary": "Get Assessment Task document",
+        "description": "Retrieve a specific Assessment Task document by name",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "description": "Document name/ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/AssessmentTask"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Document not found"
+          },
+          "403": {
+            "description": "Forbidden - Insufficient permissions"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "operationId": "iep_get_assessment_task_by_id"
+      },
+      "put": {
+        "tags": [
+          "Assessment Task"
+        ],
+        "summary": "Update Assessment Task document",
+        "description": "Update an existing Assessment Task document",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "description": "Document name/ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AssessmentTaskupdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Document updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/AssessmentTask"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request - Invalid data"
+          },
+          "404": {
+            "description": "Document not found"
+          },
+          "403": {
+            "description": "Forbidden - Insufficient permissions"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "operationId": "iep_put_assessment_task_by_id"
+      },
+      "delete": {
+        "tags": [
+          "Assessment Task"
+        ],
+        "summary": "Delete Assessment Task document",
+        "description": "Delete a specific Assessment Task document",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "description": "Document name/ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Document not found"
+          },
+          "403": {
+            "description": "Forbidden - Insufficient permissions"
+          },
+          "500": {
+            "description": "Internal server error"
+          },
+          "204": {
+            "description": "Document deleted successfully"
+          }
+        },
+        "operationId": "iep_delete_assessment_task_by_id"
+      }
+    },
+    "/api/resource/Assessment Task Setup": {
+      "get": {
+        "tags": [
+          "Assessment Task Setup"
+        ],
+        "summary": "List Assessment Task Setup documents",
+        "description": "Retrieve a list of Assessment Task Setup documents with optional filtering and pagination",
+        "parameters": [
+          {
+            "name": "fields",
+            "in": "query",
+            "description": "JSON array of fieldnames to include. Pass the value as a JSON-encoded list in the query string. example: [\"name\", \"title\", \"status\"]",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "filters",
+            "in": "query",
+            "description": "JSON array of filter conditions. Each condition is an array in the form [Doctype, field, operator, value]. Combine multiple conditions in a single outer array. example: [[\"User\", \"enabled\", \"=\", 1], [\"Class Enrollment\", \"course\", \"=\", \"ACC203\"]]",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit_start",
+            "in": "query",
+            "description": "Starting index for pagination",
+            "schema": {
+              "type": "integer",
+              "default": 0
+            }
+          },
+          {
+            "name": "limit_page_length",
+            "in": "query",
+            "description": "Number of records per page",
+            "schema": {
+              "type": "integer",
+              "default": 20
+            }
+          },
+          {
+            "name": "order_by",
+            "in": "query",
+            "description": "Field to order by (add 'desc' for descending)",
+            "schema": {
+              "type": "string"
+            },
+            "example": "modified desc"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/AssessmentTaskSetup"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden - Insufficient permissions"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "operationId": "iep_get_assessment_task_setup"
+      },
+      "post": {
+        "tags": [
+          "Assessment Task Setup"
+        ],
+        "summary": "Create Assessment Task Setup document",
+        "description": "Create a new Assessment Task Setup document",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AssessmentTaskSetupcreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Document created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/AssessmentTaskSetup"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request - Invalid data"
+          },
+          "403": {
+            "description": "Forbidden - Insufficient permissions"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "operationId": "iep_post_assessment_task_setup"
+      }
+    },
+    "/api/resource/Assessment Task Setup/{name}": {
+      "get": {
+        "tags": [
+          "Assessment Task Setup"
+        ],
+        "summary": "Get Assessment Task Setup document",
+        "description": "Retrieve a specific Assessment Task Setup document by name",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "description": "Document name/ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/AssessmentTaskSetup"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Document not found"
+          },
+          "403": {
+            "description": "Forbidden - Insufficient permissions"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "operationId": "iep_get_assessment_task_setup_by_id"
+      },
+      "put": {
+        "tags": [
+          "Assessment Task Setup"
+        ],
+        "summary": "Update Assessment Task Setup document",
+        "description": "Update an existing Assessment Task Setup document",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "description": "Document name/ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AssessmentTaskSetupupdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Document updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/AssessmentTaskSetup"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request - Invalid data"
+          },
+          "404": {
+            "description": "Document not found"
+          },
+          "403": {
+            "description": "Forbidden - Insufficient permissions"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "operationId": "iep_put_assessment_task_setup_by_id"
+      },
+      "delete": {
+        "tags": [
+          "Assessment Task Setup"
+        ],
+        "summary": "Delete Assessment Task Setup document",
+        "description": "Delete a specific Assessment Task Setup document",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "description": "Document name/ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Document not found"
+          },
+          "403": {
+            "description": "Forbidden - Insufficient permissions"
+          },
+          "500": {
+            "description": "Internal server error"
+          },
+          "204": {
+            "description": "Document deleted successfully"
+          }
+        },
+        "operationId": "iep_delete_assessment_task_setup_by_id"
       }
     },
     "/api/resource/Student": {
@@ -4093,7 +5165,7 @@
           "500": {
             "description": "Internal server error"
           },
-          "200": {
+          "204": {
             "description": "Document deleted successfully"
           }
         },
@@ -4356,11 +5428,274 @@
           "500": {
             "description": "Internal server error"
           },
-          "200": {
+          "204": {
             "description": "Document deleted successfully"
           }
         },
         "operationId": "iep_delete_student_course_registration_by_id"
+      }
+    },
+    "/api/resource/Student Evaluation": {
+      "get": {
+        "tags": [
+          "Student Evaluation"
+        ],
+        "summary": "List Student Evaluation documents",
+        "description": "Retrieve a list of Student Evaluation documents with optional filtering and pagination",
+        "parameters": [
+          {
+            "name": "fields",
+            "in": "query",
+            "description": "JSON array of fieldnames to include. Pass the value as a JSON-encoded list in the query string. example: [\"name\", \"title\", \"status\"]",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "filters",
+            "in": "query",
+            "description": "JSON array of filter conditions. Each condition is an array in the form [Doctype, field, operator, value]. Combine multiple conditions in a single outer array. example: [[\"User\", \"enabled\", \"=\", 1], [\"Class Enrollment\", \"course\", \"=\", \"ACC203\"]]",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit_start",
+            "in": "query",
+            "description": "Starting index for pagination",
+            "schema": {
+              "type": "integer",
+              "default": 0
+            }
+          },
+          {
+            "name": "limit_page_length",
+            "in": "query",
+            "description": "Number of records per page",
+            "schema": {
+              "type": "integer",
+              "default": 20
+            }
+          },
+          {
+            "name": "order_by",
+            "in": "query",
+            "description": "Field to order by (add 'desc' for descending)",
+            "schema": {
+              "type": "string"
+            },
+            "example": "modified desc"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/StudentEvaluation"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden - Insufficient permissions"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "operationId": "iep_get_student_evaluation"
+      },
+      "post": {
+        "tags": [
+          "Student Evaluation"
+        ],
+        "summary": "Create Student Evaluation document",
+        "description": "Create a new Student Evaluation document",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StudentEvaluationcreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Document created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/StudentEvaluation"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request - Invalid data"
+          },
+          "403": {
+            "description": "Forbidden - Insufficient permissions"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "operationId": "iep_post_student_evaluation"
+      }
+    },
+    "/api/resource/Student Evaluation/{name}": {
+      "get": {
+        "tags": [
+          "Student Evaluation"
+        ],
+        "summary": "Get Student Evaluation document",
+        "description": "Retrieve a specific Student Evaluation document by name",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "description": "Document name/ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/StudentEvaluation"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Document not found"
+          },
+          "403": {
+            "description": "Forbidden - Insufficient permissions"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "operationId": "iep_get_student_evaluation_by_id"
+      },
+      "put": {
+        "tags": [
+          "Student Evaluation"
+        ],
+        "summary": "Update Student Evaluation document",
+        "description": "Update an existing Student Evaluation document",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "description": "Document name/ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StudentEvaluationupdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Document updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/StudentEvaluation"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request - Invalid data"
+          },
+          "404": {
+            "description": "Document not found"
+          },
+          "403": {
+            "description": "Forbidden - Insufficient permissions"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "operationId": "iep_put_student_evaluation_by_id"
+      },
+      "delete": {
+        "tags": [
+          "Student Evaluation"
+        ],
+        "summary": "Delete Student Evaluation document",
+        "description": "Delete a specific Student Evaluation document",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "description": "Document name/ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Document not found"
+          },
+          "403": {
+            "description": "Forbidden - Insufficient permissions"
+          },
+          "500": {
+            "description": "Internal server error"
+          },
+          "204": {
+            "description": "Document deleted successfully"
+          }
+        },
+        "operationId": "iep_delete_student_evaluation_by_id"
       }
     },
     "/api/resource/Translation": {
@@ -4619,7 +5954,7 @@
           "500": {
             "description": "Internal server error"
           },
-          "200": {
+          "204": {
             "description": "Document deleted successfully"
           }
         },
@@ -4882,7 +6217,7 @@
           "500": {
             "description": "Internal server error"
           },
-          "200": {
+          "204": {
             "description": "Document deleted successfully"
           }
         },
@@ -5145,7 +6480,7 @@
           "500": {
             "description": "Internal server error"
           },
-          "200": {
+          "204": {
             "description": "Document deleted successfully"
           }
         },
@@ -5408,7 +6743,7 @@
           "500": {
             "description": "Internal server error"
           },
-          "200": {
+          "204": {
             "description": "Document deleted successfully"
           }
         },
@@ -5671,7 +7006,7 @@
           "500": {
             "description": "Internal server error"
           },
-          "200": {
+          "204": {
             "description": "Document deleted successfully"
           }
         },
@@ -5934,7 +7269,7 @@
           "500": {
             "description": "Internal server error"
           },
-          "200": {
+          "204": {
             "description": "Document deleted successfully"
           }
         },
@@ -6197,7 +7532,7 @@
           "500": {
             "description": "Internal server error"
           },
-          "200": {
+          "204": {
             "description": "Document deleted successfully"
           }
         },
@@ -6460,7 +7795,7 @@
           "500": {
             "description": "Internal server error"
           },
-          "200": {
+          "204": {
             "description": "Document deleted successfully"
           }
         },
@@ -6723,7 +8058,7 @@
           "500": {
             "description": "Internal server error"
           },
-          "200": {
+          "204": {
             "description": "Document deleted successfully"
           }
         },
@@ -6986,7 +8321,7 @@
           "500": {
             "description": "Internal server error"
           },
-          "200": {
+          "204": {
             "description": "Document deleted successfully"
           }
         },
@@ -7249,7 +8584,7 @@
           "500": {
             "description": "Internal server error"
           },
-          "200": {
+          "204": {
             "description": "Document deleted successfully"
           }
         },
@@ -7512,7 +8847,7 @@
           "500": {
             "description": "Internal server error"
           },
-          "200": {
+          "204": {
             "description": "Document deleted successfully"
           }
         },
@@ -7775,7 +9110,7 @@
           "500": {
             "description": "Internal server error"
           },
-          "200": {
+          "204": {
             "description": "Document deleted successfully"
           }
         },
@@ -8038,7 +9373,7 @@
           "500": {
             "description": "Internal server error"
           },
-          "200": {
+          "204": {
             "description": "Document deleted successfully"
           }
         },
@@ -8301,7 +9636,7 @@
           "500": {
             "description": "Internal server error"
           },
-          "200": {
+          "204": {
             "description": "Document deleted successfully"
           }
         },
@@ -8564,7 +9899,7 @@
           "500": {
             "description": "Internal server error"
           },
-          "200": {
+          "204": {
             "description": "Document deleted successfully"
           }
         },
@@ -8827,7 +10162,7 @@
           "500": {
             "description": "Internal server error"
           },
-          "200": {
+          "204": {
             "description": "Document deleted successfully"
           }
         },
@@ -12295,6 +13630,1054 @@
           }
         }
       },
+      "AssessmentPlan": {
+        "type": "object",
+        "description": "Assessment Plan document",
+        "properties": {
+          "course": {
+            "description": "Course Code (References: Course)",
+            "type": "string"
+          },
+          "course_title": {
+            "description": "Course Title",
+            "type": "string"
+          },
+          "credit_hours": {
+            "description": "Credit Hours",
+            "type": "string"
+          },
+          "combined_report": {
+            "description": "Combined Report",
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "assessment_plan_name": {
+            "description": "Assessment Plan Name",
+            "type": "string"
+          },
+          "course_learning_outcome_version": {
+            "description": "Course Learning Outcome Version (References: Academic Term)",
+            "type": "string"
+          },
+          "version": {
+            "description": "Version (References: Academic Term)",
+            "type": "string"
+          },
+          "status": {
+            "description": "Status",
+            "type": "string",
+            "enum": [
+              "Open",
+              "Closed"
+            ]
+          },
+          "workflow_state": {
+            "description": "workflow_state (References: Workflow State)",
+            "type": "string"
+          },
+          "name": {
+            "type": "string",
+            "description": "Unique identifier",
+            "example": "DOC-001"
+          },
+          "owner": {
+            "type": "string",
+            "description": "User who created the document",
+            "example": "user@example.com"
+          },
+          "creation": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Creation timestamp",
+            "example": "2023-01-01T12:00:00"
+          },
+          "modified": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Last modification timestamp",
+            "example": "2023-01-01T12:30:00"
+          },
+          "modified_by": {
+            "type": "string",
+            "description": "User who last modified the document",
+            "example": "user@example.com"
+          },
+          "docstatus": {
+            "type": "integer",
+            "description": "Document status (0=Draft, 1=Submitted, 2=Cancelled)",
+            "example": 0
+          }
+        },
+        "required": [
+          "course",
+          "assessment_plan_name",
+          "course_learning_outcome_version",
+          "version"
+        ]
+      },
+      "AssessmentPlancreate": {
+        "type": "object",
+        "description": "Schema for creating a new Assessment Plan document",
+        "properties": {
+          "course": {
+            "description": "Course Code (References: Course)",
+            "type": "string"
+          },
+          "combined_report": {
+            "description": "Combined Report",
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "assessment_plan_name": {
+            "description": "Assessment Plan Name",
+            "type": "string"
+          },
+          "course_learning_outcome_version": {
+            "description": "Course Learning Outcome Version (References: Academic Term)",
+            "type": "string"
+          },
+          "version": {
+            "description": "Version (References: Academic Term)",
+            "type": "string"
+          },
+          "status": {
+            "description": "Status",
+            "type": "string",
+            "enum": [
+              "Open",
+              "Closed"
+            ]
+          },
+          "workflow_state": {
+            "description": "workflow_state (References: Workflow State)",
+            "type": "string"
+          }
+        },
+        "required": [
+          "course",
+          "assessment_plan_name",
+          "course_learning_outcome_version",
+          "version"
+        ]
+      },
+      "AssessmentPlanupdate": {
+        "type": "object",
+        "description": "Schema for updating a Assessment Plan document (all fields optional)",
+        "properties": {
+          "course": {
+            "description": "Course Code (References: Course)",
+            "type": "string"
+          },
+          "combined_report": {
+            "description": "Combined Report",
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "assessment_plan_name": {
+            "description": "Assessment Plan Name",
+            "type": "string"
+          },
+          "course_learning_outcome_version": {
+            "description": "Course Learning Outcome Version (References: Academic Term)",
+            "type": "string"
+          },
+          "version": {
+            "description": "Version (References: Academic Term)",
+            "type": "string"
+          },
+          "status": {
+            "description": "Status",
+            "type": "string",
+            "enum": [
+              "Open",
+              "Closed"
+            ]
+          },
+          "workflow_state": {
+            "description": "workflow_state (References: Workflow State)",
+            "type": "string"
+          }
+        }
+      },
+      "AssessmentPlanDetails": {
+        "type": "object",
+        "description": "Assessment Plan Details document",
+        "properties": {
+          "assessment_plan": {
+            "description": "Assessment Plan (References: Assessment Plan)",
+            "type": "string"
+          },
+          "total_score": {
+            "description": "Total Assessment Score",
+            "type": "number"
+          },
+          "clo_version": {
+            "description": "Course Learning Outcome Version (References: Academic Term)",
+            "type": "string"
+          },
+          "assessment_type": {
+            "description": "Assessment Type",
+            "type": "string",
+            "enum": [
+              "Direct",
+              "Indirect"
+            ]
+          },
+          "relative_weight": {
+            "description": "Relative Weight",
+            "type": "number"
+          },
+          "assessment_templates": {
+            "description": "Assessment Templates (Child Table: Assessment Plan Details Assessment Template Item)",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AssessmentPlanDetailsAssessmentTemplateItem"
+            }
+          },
+          "workflow_state": {
+            "description": "State (References: Workflow State)",
+            "type": "string"
+          },
+          "name": {
+            "type": "string",
+            "description": "Unique identifier",
+            "example": "DOC-001"
+          },
+          "owner": {
+            "type": "string",
+            "description": "User who created the document",
+            "example": "user@example.com"
+          },
+          "creation": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Creation timestamp",
+            "example": "2023-01-01T12:00:00"
+          },
+          "modified": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Last modification timestamp",
+            "example": "2023-01-01T12:30:00"
+          },
+          "modified_by": {
+            "type": "string",
+            "description": "User who last modified the document",
+            "example": "user@example.com"
+          },
+          "docstatus": {
+            "type": "integer",
+            "description": "Document status (0=Draft, 1=Submitted, 2=Cancelled)",
+            "example": 0
+          }
+        },
+        "required": [
+          "assessment_plan",
+          "total_score",
+          "assessment_type"
+        ]
+      },
+      "AssessmentPlanDetailscreate": {
+        "type": "object",
+        "description": "Schema for creating a new Assessment Plan Details document",
+        "properties": {
+          "assessment_plan": {
+            "description": "Assessment Plan (References: Assessment Plan)",
+            "type": "string"
+          },
+          "total_score": {
+            "description": "Total Assessment Score",
+            "type": "number"
+          },
+          "assessment_type": {
+            "description": "Assessment Type",
+            "type": "string",
+            "enum": [
+              "Direct",
+              "Indirect"
+            ]
+          },
+          "relative_weight": {
+            "description": "Relative Weight",
+            "type": "number"
+          },
+          "assessment_templates": {
+            "description": "Assessment Templates",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AssessmentPlanDetailsAssessmentTemplateItem"
+            }
+          }
+        },
+        "required": [
+          "assessment_plan",
+          "total_score",
+          "assessment_type"
+        ]
+      },
+      "AssessmentPlanDetailsupdate": {
+        "type": "object",
+        "description": "Schema for updating a Assessment Plan Details document (all fields optional)",
+        "properties": {
+          "assessment_plan": {
+            "description": "Assessment Plan (References: Assessment Plan)",
+            "type": "string"
+          },
+          "total_score": {
+            "description": "Total Assessment Score",
+            "type": "number"
+          },
+          "assessment_type": {
+            "description": "Assessment Type",
+            "type": "string",
+            "enum": [
+              "Direct",
+              "Indirect"
+            ]
+          },
+          "relative_weight": {
+            "description": "Relative Weight",
+            "type": "number"
+          },
+          "assessment_templates": {
+            "description": "Assessment Templates",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AssessmentPlanDetailsAssessmentTemplateItem"
+            }
+          }
+        }
+      },
+      "AssessmentPlanDetailsAssessmentTemplateItem": {
+        "type": "object",
+        "description": "Assessment Plan Details Assessment Template Item child table",
+        "properties": {
+          "assessment_template_name": {
+            "description": "Assessment Template Name",
+            "type": "string"
+          },
+          "name": {
+            "type": "string",
+            "description": "Unique identifier",
+            "example": "DOC-001"
+          },
+          "owner": {
+            "type": "string",
+            "description": "User who created the document",
+            "example": "user@example.com"
+          },
+          "creation": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Creation timestamp",
+            "example": "2023-01-01T12:00:00"
+          },
+          "modified": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Last modification timestamp",
+            "example": "2023-01-01T12:30:00"
+          },
+          "modified_by": {
+            "type": "string",
+            "description": "User who last modified the document",
+            "example": "user@example.com"
+          },
+          "docstatus": {
+            "type": "integer",
+            "description": "Document status (0=Draft, 1=Submitted, 2=Cancelled)",
+            "example": 0
+          },
+          "parent": {
+            "type": "string",
+            "description": "Parent document name",
+            "example": "PARENT-001"
+          },
+          "parenttype": {
+            "type": "string",
+            "description": "Parent document type",
+            "example": "Parent DocType"
+          },
+          "parentfield": {
+            "type": "string",
+            "description": "Fieldname in parent referencing this table",
+            "example": "child_table_field"
+          },
+          "idx": {
+            "type": "integer",
+            "description": "Row index",
+            "example": 1
+          }
+        },
+        "required": [
+          "assessment_template_name"
+        ]
+      },
+      "AssessmentTask": {
+        "type": "object",
+        "description": "Assessment Task document",
+        "properties": {
+          "assessment_task_name": {
+            "description": "Assessment Task Name",
+            "type": "string"
+          },
+          "assessment_template": {
+            "description": "Assessment Template",
+            "type": "string",
+            "enum": [
+              "simple",
+              "rubric",
+              "question",
+              "outcome",
+              "grading_scale"
+            ]
+          },
+          "week_due": {
+            "description": "Week Due",
+            "type": "integer"
+          },
+          "passing_score": {
+            "description": "Passing Score",
+            "type": "number"
+          },
+          "assessment_state": {
+            "description": "Assessment State",
+            "type": "string",
+            "enum": [
+              "Unpublished",
+              "Published"
+            ]
+          },
+          "assessment_plan_details": {
+            "description": "Assessment Plan Details (References: Assessment Plan Details)",
+            "type": "string"
+          },
+          "assessment_score": {
+            "description": "Assessment Score",
+            "type": "number"
+          },
+          "percentage": {
+            "description": "Percentage",
+            "type": "number"
+          },
+          "total_score": {
+            "description": "Total Score",
+            "type": "number"
+          },
+          "values": {
+            "description": "Values",
+            "type": "string",
+            "format": "text"
+          },
+          "description": {
+            "description": "Description",
+            "type": "string"
+          },
+          "course_learning_outcomes": {
+            "description": "Course Learning Outcomes (Child Table: Assessment Task Course Learning Outcome Item)",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AssessmentTaskCourseLearningOutcomeItem"
+            }
+          },
+          "name": {
+            "type": "string",
+            "description": "Unique identifier",
+            "example": "DOC-001"
+          },
+          "owner": {
+            "type": "string",
+            "description": "User who created the document",
+            "example": "user@example.com"
+          },
+          "creation": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Creation timestamp",
+            "example": "2023-01-01T12:00:00"
+          },
+          "modified": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Last modification timestamp",
+            "example": "2023-01-01T12:30:00"
+          },
+          "modified_by": {
+            "type": "string",
+            "description": "User who last modified the document",
+            "example": "user@example.com"
+          },
+          "docstatus": {
+            "type": "integer",
+            "description": "Document status (0=Draft, 1=Submitted, 2=Cancelled)",
+            "example": 0
+          }
+        },
+        "required": [
+          "assessment_task_name",
+          "assessment_template",
+          "week_due",
+          "passing_score",
+          "assessment_plan_details",
+          "assessment_score",
+          "percentage",
+          "course_learning_outcomes"
+        ]
+      },
+      "AssessmentTaskcreate": {
+        "type": "object",
+        "description": "Schema for creating a new Assessment Task document",
+        "properties": {
+          "assessment_task_name": {
+            "description": "Assessment Task Name",
+            "type": "string"
+          },
+          "assessment_template": {
+            "description": "Assessment Template",
+            "type": "string",
+            "enum": [
+              "simple",
+              "rubric",
+              "question",
+              "outcome",
+              "grading_scale"
+            ]
+          },
+          "week_due": {
+            "description": "Week Due",
+            "type": "integer"
+          },
+          "passing_score": {
+            "description": "Passing Score",
+            "type": "number"
+          },
+          "assessment_state": {
+            "description": "Assessment State",
+            "type": "string",
+            "enum": [
+              "Unpublished",
+              "Published"
+            ]
+          },
+          "assessment_plan_details": {
+            "description": "Assessment Plan Details (References: Assessment Plan Details)",
+            "type": "string"
+          },
+          "assessment_score": {
+            "description": "Assessment Score",
+            "type": "number"
+          },
+          "percentage": {
+            "description": "Percentage",
+            "type": "number"
+          },
+          "total_score": {
+            "description": "Total Score",
+            "type": "number"
+          },
+          "values": {
+            "description": "Values",
+            "type": "string"
+          },
+          "description": {
+            "description": "Description",
+            "type": "string"
+          },
+          "course_learning_outcomes": {
+            "description": "Course Learning Outcomes",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AssessmentTaskCourseLearningOutcomeItem"
+            }
+          }
+        },
+        "required": [
+          "assessment_task_name",
+          "assessment_template",
+          "week_due",
+          "passing_score",
+          "assessment_plan_details",
+          "assessment_score",
+          "percentage",
+          "course_learning_outcomes"
+        ]
+      },
+      "AssessmentTaskupdate": {
+        "type": "object",
+        "description": "Schema for updating a Assessment Task document (all fields optional)",
+        "properties": {
+          "assessment_task_name": {
+            "description": "Assessment Task Name",
+            "type": "string"
+          },
+          "assessment_template": {
+            "description": "Assessment Template",
+            "type": "string",
+            "enum": [
+              "simple",
+              "rubric",
+              "question",
+              "outcome",
+              "grading_scale"
+            ]
+          },
+          "week_due": {
+            "description": "Week Due",
+            "type": "integer"
+          },
+          "passing_score": {
+            "description": "Passing Score",
+            "type": "number"
+          },
+          "assessment_state": {
+            "description": "Assessment State",
+            "type": "string",
+            "enum": [
+              "Unpublished",
+              "Published"
+            ]
+          },
+          "assessment_plan_details": {
+            "description": "Assessment Plan Details (References: Assessment Plan Details)",
+            "type": "string"
+          },
+          "assessment_score": {
+            "description": "Assessment Score",
+            "type": "number"
+          },
+          "percentage": {
+            "description": "Percentage",
+            "type": "number"
+          },
+          "total_score": {
+            "description": "Total Score",
+            "type": "number"
+          },
+          "values": {
+            "description": "Values",
+            "type": "string"
+          },
+          "description": {
+            "description": "Description",
+            "type": "string"
+          },
+          "course_learning_outcomes": {
+            "description": "Course Learning Outcomes",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AssessmentTaskCourseLearningOutcomeItem"
+            }
+          }
+        }
+      },
+      "AssessmentTaskCourseLearningOutcomeItem": {
+        "type": "object",
+        "description": "Assessment Task Course Learning Outcome Item child table",
+        "properties": {
+          "course_learning_outcome": {
+            "description": "Course Learning Outcome",
+            "type": "string"
+          },
+          "name": {
+            "type": "string",
+            "description": "Unique identifier",
+            "example": "DOC-001"
+          },
+          "owner": {
+            "type": "string",
+            "description": "User who created the document",
+            "example": "user@example.com"
+          },
+          "creation": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Creation timestamp",
+            "example": "2023-01-01T12:00:00"
+          },
+          "modified": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Last modification timestamp",
+            "example": "2023-01-01T12:30:00"
+          },
+          "modified_by": {
+            "type": "string",
+            "description": "User who last modified the document",
+            "example": "user@example.com"
+          },
+          "docstatus": {
+            "type": "integer",
+            "description": "Document status (0=Draft, 1=Submitted, 2=Cancelled)",
+            "example": 0
+          },
+          "parent": {
+            "type": "string",
+            "description": "Parent document name",
+            "example": "PARENT-001"
+          },
+          "parenttype": {
+            "type": "string",
+            "description": "Parent document type",
+            "example": "Parent DocType"
+          },
+          "parentfield": {
+            "type": "string",
+            "description": "Fieldname in parent referencing this table",
+            "example": "child_table_field"
+          },
+          "idx": {
+            "type": "integer",
+            "description": "Row index",
+            "example": 1
+          }
+        },
+        "required": [
+          "course_learning_outcome"
+        ]
+      },
+      "AssessmentTaskSetup": {
+        "type": "object",
+        "description": "Assessment Task Setup document",
+        "properties": {
+          "title": {
+            "description": "Title",
+            "type": "string",
+            "maxLength": 290
+          },
+          "assessment_task_name": {
+            "description": "Assessment Task Name (References: Assessment Task)",
+            "type": "string"
+          },
+          "start_date": {
+            "description": "Start Date",
+            "type": "string",
+            "format": "date-time"
+          },
+          "assessment_state": {
+            "description": "Assessment State",
+            "type": "string",
+            "enum": [
+              "Unpublished",
+              "Published"
+            ]
+          },
+          "course_section": {
+            "description": "Course Section (References: Course Section)",
+            "type": "string"
+          },
+          "end_date": {
+            "description": "End Date",
+            "type": "string",
+            "format": "date-time"
+          },
+          "students": {
+            "description": "students (Child Table: Assessment Task Setup Student Item)",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AssessmentTaskSetupStudentItem"
+            }
+          },
+          "removed_students": {
+            "description": "removed_students (Child Table: Assessment Task Setup Removed Student Item)",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AssessmentTaskSetupRemovedStudentItem"
+            }
+          },
+          "name": {
+            "type": "string",
+            "description": "Unique identifier",
+            "example": "DOC-001"
+          },
+          "owner": {
+            "type": "string",
+            "description": "User who created the document",
+            "example": "user@example.com"
+          },
+          "creation": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Creation timestamp",
+            "example": "2023-01-01T12:00:00"
+          },
+          "modified": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Last modification timestamp",
+            "example": "2023-01-01T12:30:00"
+          },
+          "modified_by": {
+            "type": "string",
+            "description": "User who last modified the document",
+            "example": "user@example.com"
+          },
+          "docstatus": {
+            "type": "integer",
+            "description": "Document status (0=Draft, 1=Submitted, 2=Cancelled)",
+            "example": 0
+          }
+        },
+        "required": [
+          "assessment_task_name",
+          "start_date",
+          "course_section",
+          "end_date"
+        ]
+      },
+      "AssessmentTaskSetupcreate": {
+        "type": "object",
+        "description": "Schema for creating a new Assessment Task Setup document",
+        "properties": {
+          "title": {
+            "description": "Title",
+            "type": "string",
+            "maxLength": 290
+          },
+          "assessment_task_name": {
+            "description": "Assessment Task Name (References: Assessment Task)",
+            "type": "string"
+          },
+          "start_date": {
+            "description": "Start Date",
+            "type": "string",
+            "format": "date-time"
+          },
+          "assessment_state": {
+            "description": "Assessment State",
+            "type": "string",
+            "enum": [
+              "Unpublished",
+              "Published"
+            ]
+          },
+          "course_section": {
+            "description": "Course Section (References: Course Section)",
+            "type": "string"
+          },
+          "end_date": {
+            "description": "End Date",
+            "type": "string",
+            "format": "date-time"
+          },
+          "students": {
+            "description": "students",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AssessmentTaskSetupStudentItem"
+            }
+          },
+          "removed_students": {
+            "description": "removed_students",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AssessmentTaskSetupRemovedStudentItem"
+            }
+          }
+        },
+        "required": [
+          "assessment_task_name",
+          "start_date",
+          "course_section",
+          "end_date"
+        ]
+      },
+      "AssessmentTaskSetupupdate": {
+        "type": "object",
+        "description": "Schema for updating a Assessment Task Setup document (all fields optional)",
+        "properties": {
+          "title": {
+            "description": "Title",
+            "type": "string",
+            "maxLength": 290
+          },
+          "assessment_task_name": {
+            "description": "Assessment Task Name (References: Assessment Task)",
+            "type": "string"
+          },
+          "start_date": {
+            "description": "Start Date",
+            "type": "string",
+            "format": "date-time"
+          },
+          "assessment_state": {
+            "description": "Assessment State",
+            "type": "string",
+            "enum": [
+              "Unpublished",
+              "Published"
+            ]
+          },
+          "course_section": {
+            "description": "Course Section (References: Course Section)",
+            "type": "string"
+          },
+          "end_date": {
+            "description": "End Date",
+            "type": "string",
+            "format": "date-time"
+          },
+          "students": {
+            "description": "students",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AssessmentTaskSetupStudentItem"
+            }
+          },
+          "removed_students": {
+            "description": "removed_students",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AssessmentTaskSetupRemovedStudentItem"
+            }
+          }
+        }
+      },
+      "AssessmentTaskSetupStudentItem": {
+        "type": "object",
+        "description": "Assessment Task Setup Student Item child table",
+        "properties": {
+          "student_id": {
+            "description": "Student Id (References: Student)",
+            "type": "string"
+          },
+          "student_name": {
+            "description": "Student Name",
+            "type": "string"
+          },
+          "name": {
+            "type": "string",
+            "description": "Unique identifier",
+            "example": "DOC-001"
+          },
+          "owner": {
+            "type": "string",
+            "description": "User who created the document",
+            "example": "user@example.com"
+          },
+          "creation": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Creation timestamp",
+            "example": "2023-01-01T12:00:00"
+          },
+          "modified": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Last modification timestamp",
+            "example": "2023-01-01T12:30:00"
+          },
+          "modified_by": {
+            "type": "string",
+            "description": "User who last modified the document",
+            "example": "user@example.com"
+          },
+          "docstatus": {
+            "type": "integer",
+            "description": "Document status (0=Draft, 1=Submitted, 2=Cancelled)",
+            "example": 0
+          },
+          "parent": {
+            "type": "string",
+            "description": "Parent document name",
+            "example": "PARENT-001"
+          },
+          "parenttype": {
+            "type": "string",
+            "description": "Parent document type",
+            "example": "Parent DocType"
+          },
+          "parentfield": {
+            "type": "string",
+            "description": "Fieldname in parent referencing this table",
+            "example": "child_table_field"
+          },
+          "idx": {
+            "type": "integer",
+            "description": "Row index",
+            "example": 1
+          }
+        },
+        "required": [
+          "student_id"
+        ]
+      },
+      "AssessmentTaskSetupRemovedStudentItem": {
+        "type": "object",
+        "description": "Assessment Task Setup Removed Student Item child table",
+        "properties": {
+          "student_id": {
+            "description": "Student Id (References: Student)",
+            "type": "string"
+          },
+          "student_name": {
+            "description": "Student Name",
+            "type": "string"
+          },
+          "reason": {
+            "description": "Reason",
+            "type": "string"
+          },
+          "name": {
+            "type": "string",
+            "description": "Unique identifier",
+            "example": "DOC-001"
+          },
+          "owner": {
+            "type": "string",
+            "description": "User who created the document",
+            "example": "user@example.com"
+          },
+          "creation": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Creation timestamp",
+            "example": "2023-01-01T12:00:00"
+          },
+          "modified": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Last modification timestamp",
+            "example": "2023-01-01T12:30:00"
+          },
+          "modified_by": {
+            "type": "string",
+            "description": "User who last modified the document",
+            "example": "user@example.com"
+          },
+          "docstatus": {
+            "type": "integer",
+            "description": "Document status (0=Draft, 1=Submitted, 2=Cancelled)",
+            "example": 0
+          },
+          "parent": {
+            "type": "string",
+            "description": "Parent document name",
+            "example": "PARENT-001"
+          },
+          "parenttype": {
+            "type": "string",
+            "description": "Parent document type",
+            "example": "Parent DocType"
+          },
+          "parentfield": {
+            "type": "string",
+            "description": "Fieldname in parent referencing this table",
+            "example": "child_table_field"
+          },
+          "idx": {
+            "type": "integer",
+            "description": "Row index",
+            "example": 1
+          }
+        },
+        "required": [
+          "student_id",
+          "reason"
+        ]
+      },
       "Student": {
         "type": "object",
         "description": "Student document",
@@ -12666,6 +15049,270 @@
             "type": "string"
           }
         }
+      },
+      "StudentEvaluation": {
+        "type": "object",
+        "description": "Student Evaluation document",
+        "properties": {
+          "course_section": {
+            "description": "Course Section (References: Course Section)",
+            "type": "string"
+          },
+          "student": {
+            "description": "Student (References: Student)",
+            "type": "string"
+          },
+          "mark": {
+            "description": "Mark",
+            "type": "number"
+          },
+          "assessment_task": {
+            "description": "Assessment Task (References: Assessment Task)",
+            "type": "string"
+          },
+          "assessment_item_type": {
+            "description": "Assessment Item Type",
+            "type": "string",
+            "enum": [
+              "simple",
+              "outcome",
+              "rubric",
+              "grading_scale",
+              "question"
+            ]
+          },
+          "remarks": {
+            "description": "remarks",
+            "type": "string"
+          },
+          "course_learning_outcomes": {
+            "description": "course_learning_outcomes (Child Table: Student Evaluation Course Learning Outcome Item)",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/StudentEvaluationCourseLearningOutcomeItem"
+            }
+          },
+          "name": {
+            "type": "string",
+            "description": "Unique identifier",
+            "example": "DOC-001"
+          },
+          "owner": {
+            "type": "string",
+            "description": "User who created the document",
+            "example": "user@example.com"
+          },
+          "creation": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Creation timestamp",
+            "example": "2023-01-01T12:00:00"
+          },
+          "modified": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Last modification timestamp",
+            "example": "2023-01-01T12:30:00"
+          },
+          "modified_by": {
+            "type": "string",
+            "description": "User who last modified the document",
+            "example": "user@example.com"
+          },
+          "docstatus": {
+            "type": "integer",
+            "description": "Document status (0=Draft, 1=Submitted, 2=Cancelled)",
+            "example": 0
+          }
+        },
+        "required": [
+          "course_section",
+          "student",
+          "mark",
+          "assessment_task",
+          "assessment_item_type"
+        ]
+      },
+      "StudentEvaluationcreate": {
+        "type": "object",
+        "description": "Schema for creating a new Student Evaluation document",
+        "properties": {
+          "course_section": {
+            "description": "Course Section (References: Course Section)",
+            "type": "string"
+          },
+          "student": {
+            "description": "Student (References: Student)",
+            "type": "string"
+          },
+          "mark": {
+            "description": "Mark",
+            "type": "number"
+          },
+          "assessment_task": {
+            "description": "Assessment Task (References: Assessment Task)",
+            "type": "string"
+          },
+          "assessment_item_type": {
+            "description": "Assessment Item Type",
+            "type": "string",
+            "enum": [
+              "simple",
+              "outcome",
+              "rubric",
+              "grading_scale",
+              "question"
+            ]
+          },
+          "remarks": {
+            "description": "remarks",
+            "type": "string"
+          },
+          "course_learning_outcomes": {
+            "description": "course_learning_outcomes",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/StudentEvaluationCourseLearningOutcomeItem"
+            }
+          }
+        },
+        "required": [
+          "course_section",
+          "student",
+          "mark",
+          "assessment_task",
+          "assessment_item_type"
+        ]
+      },
+      "StudentEvaluationupdate": {
+        "type": "object",
+        "description": "Schema for updating a Student Evaluation document (all fields optional)",
+        "properties": {
+          "course_section": {
+            "description": "Course Section (References: Course Section)",
+            "type": "string"
+          },
+          "student": {
+            "description": "Student (References: Student)",
+            "type": "string"
+          },
+          "mark": {
+            "description": "Mark",
+            "type": "number"
+          },
+          "assessment_task": {
+            "description": "Assessment Task (References: Assessment Task)",
+            "type": "string"
+          },
+          "assessment_item_type": {
+            "description": "Assessment Item Type",
+            "type": "string",
+            "enum": [
+              "simple",
+              "outcome",
+              "rubric",
+              "grading_scale",
+              "question"
+            ]
+          },
+          "remarks": {
+            "description": "remarks",
+            "type": "string"
+          },
+          "course_learning_outcomes": {
+            "description": "course_learning_outcomes",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/StudentEvaluationCourseLearningOutcomeItem"
+            }
+          }
+        }
+      },
+      "StudentEvaluationCourseLearningOutcomeItem": {
+        "type": "object",
+        "description": "Student Evaluation Course Learning Outcome Item child table",
+        "properties": {
+          "course_learning_outcome": {
+            "description": "Course Learning Outcome",
+            "type": "string"
+          },
+          "lo_group": {
+            "description": "LO Group",
+            "type": "string"
+          },
+          "mark": {
+            "description": "Mark",
+            "type": "string"
+          },
+          "question_code": {
+            "description": "Question Code",
+            "type": "string"
+          },
+          "scale": {
+            "description": "Scale",
+            "type": "string"
+          },
+          "rubric": {
+            "description": "Rubric",
+            "type": "string"
+          },
+          "name": {
+            "type": "string",
+            "description": "Unique identifier",
+            "example": "DOC-001"
+          },
+          "owner": {
+            "type": "string",
+            "description": "User who created the document",
+            "example": "user@example.com"
+          },
+          "creation": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Creation timestamp",
+            "example": "2023-01-01T12:00:00"
+          },
+          "modified": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Last modification timestamp",
+            "example": "2023-01-01T12:30:00"
+          },
+          "modified_by": {
+            "type": "string",
+            "description": "User who last modified the document",
+            "example": "user@example.com"
+          },
+          "docstatus": {
+            "type": "integer",
+            "description": "Document status (0=Draft, 1=Submitted, 2=Cancelled)",
+            "example": 0
+          },
+          "parent": {
+            "type": "string",
+            "description": "Parent document name",
+            "example": "PARENT-001"
+          },
+          "parenttype": {
+            "type": "string",
+            "description": "Parent document type",
+            "example": "Parent DocType"
+          },
+          "parentfield": {
+            "type": "string",
+            "description": "Fieldname in parent referencing this table",
+            "example": "child_table_field"
+          },
+          "idx": {
+            "type": "integer",
+            "description": "Row index",
+            "example": 1
+          }
+        },
+        "required": [
+          "course_learning_outcome",
+          "mark"
+        ]
       },
       "HasRole": {
         "type": "object",

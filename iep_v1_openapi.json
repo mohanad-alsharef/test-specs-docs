@@ -1,10 +1,10 @@
 {
   "openapi": "3.1.0",
   "info": {
-    "title": "IEP \u2013 Medad REST API",
+    "title": "IEP – Medad REST API",
     "summary": "IEP REST API covering core DocTypes and webhook events",
     "description": "REST API for the IEP integration with the Medad system. Provides CRUD access to core academic DocTypes via the standard Frappe /api/resource pattern, plus outbound webhook event definitions.",
-    "version": "1.0.0",
+    "version": "4.0.0",
     "contact": {
       "name": "Medad Support"
     }
@@ -6491,6 +6491,99 @@
         "operationId": "iep_delete_major_by_id"
       }
     },
+    "/api/resource/Program Of Study/{name}": {
+      "put": {
+        "tags": [
+          "Program Of Study"
+        ],
+        "summary": "Update Program Of Study document",
+        "description": "Update an existing Program Of Study document",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "description": "Document name/ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProgramOfStudyUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Document updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/ProgramOfStudy"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request - Invalid data"
+          },
+          "404": {
+            "description": "Document not found"
+          },
+          "403": {
+            "description": "Forbidden - Insufficient permissions"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "operationId": "iep_put_program_of_study_by_id"
+      },
+      "delete": {
+        "tags": [
+          "Program Of Study"
+        ],
+        "summary": "Delete Program Of Study document",
+        "description": "Delete a specific Program Of Study document",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "description": "Document name/ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Document deleted successfully"
+          },
+          "403": {
+            "description": "Forbidden - Insufficient permissions"
+          },
+          "404": {
+            "description": "Document not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "operationId": "iep_delete_program_of_study_by_id"
+      }
+    },
     "/api/resource/Program Study Plan": {
       "get": {
         "tags": [
@@ -8319,6 +8412,99 @@
         "operationId": "iep_post_student_results"
       }
     },
+    "/api/resource/Student Results Dist/{name}": {
+      "put": {
+        "tags": [
+          "Student Results Dist"
+        ],
+        "summary": "Update Student Results Dist document",
+        "description": "Update an existing Student Results Dist document",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "description": "Document name/ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StudentResultsDistUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Document updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/StudentResultsDist"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request - Invalid data"
+          },
+          "404": {
+            "description": "Document not found"
+          },
+          "403": {
+            "description": "Forbidden - Insufficient permissions"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "operationId": "iep_put_student_results_dist_by_id"
+      },
+      "delete": {
+        "tags": [
+          "Student Results Dist"
+        ],
+        "summary": "Delete Student Results Dist document",
+        "description": "Delete a specific Student Results Dist document",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "description": "Document name/ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Document deleted successfully"
+          },
+          "403": {
+            "description": "Forbidden - Insufficient permissions"
+          },
+          "404": {
+            "description": "Document not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "operationId": "iep_delete_student_results_dist_by_id"
+      }
+    },
     "/api/resource/Student Results Grade": {
       "get": {
         "tags": [
@@ -10033,6 +10219,99 @@
           }
         },
         "operationId": "iep_post_user"
+      }
+    },
+    "/api/resource/User Unit/{name}": {
+      "put": {
+        "tags": [
+          "User Unit"
+        ],
+        "summary": "Update User Unit document",
+        "description": "Update an existing User Unit document",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "description": "Document name/ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserUnitUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Document updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/UserUnit"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request - Invalid data"
+          },
+          "404": {
+            "description": "Document not found"
+          },
+          "403": {
+            "description": "Forbidden - Insufficient permissions"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "operationId": "iep_put_user_unit_by_id"
+      },
+      "delete": {
+        "tags": [
+          "User Unit"
+        ],
+        "summary": "Delete User Unit document",
+        "description": "Delete a specific User Unit document",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "description": "Document name/ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Document deleted successfully"
+          },
+          "403": {
+            "description": "Forbidden - Insufficient permissions"
+          },
+          "404": {
+            "description": "Document not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "operationId": "iep_delete_user_unit_by_id"
       }
     },
     "/api/resource/User/{name}": {
@@ -18980,6 +19259,10 @@
           "academic_program"
         ]
       },
+      "ProgramOfStudyUpdate": {
+        "type": "object",
+        "description": "Schema for updating a Program Of Study"
+      },
       "ProgramOfStudycreate": {
         "type": "object",
         "description": "Schema for creating a new Program of Study document",
@@ -20758,6 +21041,10 @@
         "required": [
           "course_section"
         ]
+      },
+      "StudentResultsDistUpdate": {
+        "type": "object",
+        "description": "Schema for updating a Student Results Dist"
       },
       "StudentResultsGrade": {
         "type": "object",
@@ -22642,6 +22929,10 @@
           }
         },
         "required": []
+      },
+      "UserUnitUpdate": {
+        "type": "object",
+        "description": "Schema for updating a User Unit"
       },
       "UserUpdate": {
         "type": "object",

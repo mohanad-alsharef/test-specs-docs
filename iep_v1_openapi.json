@@ -6309,7 +6309,8 @@
           "500": {
             "description": "Internal server error"
           }
-        }
+        },
+        "operationId": "iep_get_location"
       },
       "post": {
         "tags": [
@@ -6352,7 +6353,8 @@
           "500": {
             "description": "Internal server error"
           }
-        }
+        },
+        "operationId": "iep_post_location"
       }
     },
     "/api/resource/Location/{name}": {
@@ -6398,7 +6400,8 @@
           "500": {
             "description": "Internal server error"
           }
-        }
+        },
+        "operationId": "iep_get_location_by_id"
       },
       "put": {
         "tags": [
@@ -6455,7 +6458,8 @@
           "500": {
             "description": "Internal server error"
           }
-        }
+        },
+        "operationId": "iep_put_location_by_id"
       },
       "delete": {
         "tags": [
@@ -6487,7 +6491,8 @@
           "500": {
             "description": "Internal server error"
           }
-        }
+        },
+        "operationId": "iep_delete_location_by_id"
       }
     },
     "/api/resource/Major": {

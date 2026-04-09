@@ -4,7 +4,7 @@
     "title": "IEP – Medad REST API",
     "summary": "IEP REST API covering core DocTypes and webhook events",
     "description": "REST API for the IEP integration with the Medad system. Provides CRUD access to core academic DocTypes via the standard Frappe /api/resource pattern, plus outbound webhook event definitions.",
-    "version": "4.0.0",
+    "version": "5.0.0",
     "contact": {
       "name": "Medad Support"
     }
@@ -112,6 +112,10 @@
     {
       "name": "Institution",
       "description": "Operations for Institution documents"
+    },
+    {
+      "name": "Location",
+      "description": "Operations for Location documents"
     },
     {
       "name": "Major",
@@ -6228,6 +6232,264 @@
         "operationId": "iep_delete_institution_by_id"
       }
     },
+    "/api/resource/Location": {
+      "get": {
+        "tags": [
+          "Location"
+        ],
+        "summary": "List Location documents",
+        "description": "Retrieve a list of Location documents with optional filtering and pagination",
+        "parameters": [
+          {
+            "name": "fields",
+            "in": "query",
+            "description": "JSON array of fieldnames to include. Pass the value as a JSON-encoded list in the query string. example: [\"name\", \"title\", \"status\"]",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "filters",
+            "in": "query",
+            "description": "JSON array of filter conditions. Each condition is an array in the form [Doctype, field, operator, value]. Combine multiple conditions in a single outer array. example: [[\"User\", \"enabled\", \"=\", 1], [\"Class Enrollment\", \"course\", \"=\", \"ACC203\"]]",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit_start",
+            "in": "query",
+            "description": "Starting index for pagination",
+            "schema": {
+              "type": "integer",
+              "default": 0
+            }
+          },
+          {
+            "name": "limit_page_length",
+            "in": "query",
+            "description": "Number of records per page",
+            "schema": {
+              "type": "integer",
+              "default": 20
+            }
+          },
+          {
+            "name": "order_by",
+            "in": "query",
+            "description": "Field to order by (add 'desc' for descending)",
+            "schema": {
+              "type": "string"
+            },
+            "example": "modified desc"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Location"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden - Insufficient permissions"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Location"
+        ],
+        "summary": "Create Location document",
+        "description": "Create a new Location document",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LocationCreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Document created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/Location"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request - Invalid data"
+          },
+          "403": {
+            "description": "Forbidden - Insufficient permissions"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/api/resource/Location/{name}": {
+      "get": {
+        "tags": [
+          "Location"
+        ],
+        "summary": "Get Location document",
+        "description": "Retrieve a specific Location document by name",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "description": "Document name/ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/Location"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Document not found"
+          },
+          "403": {
+            "description": "Forbidden - Insufficient permissions"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Location"
+        ],
+        "summary": "Update Location document",
+        "description": "Update an existing Location document",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "description": "Document name/ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LocationUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Document updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/Location"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request - Invalid data"
+          },
+          "404": {
+            "description": "Document not found"
+          },
+          "403": {
+            "description": "Forbidden - Insufficient permissions"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Location"
+        ],
+        "summary": "Delete Location document",
+        "description": "Delete a specific Location document",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "description": "Document name/ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Document deleted successfully"
+          },
+          "404": {
+            "description": "Document not found"
+          },
+          "403": {
+            "description": "Forbidden - Insufficient permissions"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
     "/api/resource/Major": {
       "get": {
         "tags": [
@@ -6489,99 +6751,6 @@
           }
         },
         "operationId": "iep_delete_major_by_id"
-      }
-    },
-    "/api/resource/Program Of Study/{name}": {
-      "put": {
-        "tags": [
-          "Program Of Study"
-        ],
-        "summary": "Update Program Of Study document",
-        "description": "Update an existing Program Of Study document",
-        "parameters": [
-          {
-            "name": "name",
-            "in": "path",
-            "required": true,
-            "description": "Document name/ID",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ProgramOfStudyUpdate"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Document updated successfully",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "data": {
-                      "$ref": "#/components/schemas/ProgramOfStudy"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad request - Invalid data"
-          },
-          "404": {
-            "description": "Document not found"
-          },
-          "403": {
-            "description": "Forbidden - Insufficient permissions"
-          },
-          "500": {
-            "description": "Internal server error"
-          }
-        },
-        "operationId": "iep_put_program_of_study_by_id"
-      },
-      "delete": {
-        "tags": [
-          "Program Of Study"
-        ],
-        "summary": "Delete Program Of Study document",
-        "description": "Delete a specific Program Of Study document",
-        "parameters": [
-          {
-            "name": "name",
-            "in": "path",
-            "required": true,
-            "description": "Document name/ID",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "Document deleted successfully"
-          },
-          "403": {
-            "description": "Forbidden - Insufficient permissions"
-          },
-          "404": {
-            "description": "Document not found"
-          },
-          "500": {
-            "description": "Internal server error"
-          }
-        },
-        "operationId": "iep_delete_program_of_study_by_id"
       }
     },
     "/api/resource/Program Study Plan": {
@@ -18925,6 +19094,86 @@
         },
         "additionalProperties": false
       },
+      "Location": {
+        "type": "object",
+        "description": "Location document",
+        "properties": {
+          "location_name": {
+            "description": "Location Name",
+            "type": "string"
+          },
+          "location_code": {
+            "description": "Location Code",
+            "type": "string"
+          },
+          "name": {
+            "type": "string",
+            "description": "Unique identifier",
+            "example": "DOC-001"
+          },
+          "owner": {
+            "type": "string",
+            "description": "User who created the document",
+            "example": "user@example.com"
+          },
+          "creation": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Creation timestamp",
+            "example": "2023-01-01T12:00:00"
+          },
+          "modified": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Last modification timestamp",
+            "example": "2023-01-01T12:30:00"
+          },
+          "modified_by": {
+            "type": "string",
+            "description": "User who last modified the document",
+            "example": "user@example.com"
+          },
+          "docstatus": {
+            "type": "integer",
+            "description": "Document status (0=Draft, 1=Submitted, 2=Cancelled)",
+            "example": 0
+          }
+        },
+        "required": [
+          "location_name"
+        ]
+      },
+      "LocationCreate": {
+        "type": "object",
+        "description": "Schema for creating a new Location document",
+        "properties": {
+          "location_name": {
+            "description": "Location Name",
+            "type": "string"
+          },
+          "location_code": {
+            "description": "Location Code",
+            "type": "string"
+          }
+        },
+        "required": [
+          "location_name"
+        ]
+      },
+      "LocationUpdate": {
+        "type": "object",
+        "description": "Schema for updating a Location document (all fields optional)",
+        "properties": {
+          "location_name": {
+            "description": "Location Name",
+            "type": "string"
+          },
+          "location_code": {
+            "description": "Location Code",
+            "type": "string"
+          }
+        }
+      },
       "Major": {
         "type": "object",
         "description": "Major document",
@@ -19258,10 +19507,6 @@
         "required": [
           "academic_program"
         ]
-      },
-      "ProgramOfStudyUpdate": {
-        "type": "object",
-        "description": "Schema for updating a Program Of Study"
       },
       "ProgramOfStudycreate": {
         "type": "object",
@@ -21041,6 +21286,10 @@
         "required": [
           "course_section"
         ]
+      },
+      "StudentResultsDist": {
+        "type": "object",
+        "description": "Schema for Student Results Dist"
       },
       "StudentResultsDistUpdate": {
         "type": "object",
@@ -22929,6 +23178,10 @@
           }
         },
         "required": []
+      },
+      "UserUnit": {
+        "type": "object",
+        "description": "Schema for User Unit"
       },
       "UserUnitUpdate": {
         "type": "object",

@@ -10,7 +10,16 @@
   <script src="https://unpkg.com/swagger-ui-dist/swagger-ui-bundle.js"></script>
   <script>
     SwaggerUIBundle({
-      url: "iep_v1_openapi.json",
+      urls: [
+        {
+          url: "iep_v1_openapi.json",
+          name: "IEP API v1"
+        },
+        {
+          url: "cmp_v1_openapi.json",
+          name: "CMP API v1"
+        }
+      ],
       dom_id: '#swagger-ui',
     });
   </script>

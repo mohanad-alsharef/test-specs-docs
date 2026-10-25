@@ -224996,7 +224996,7 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/PublishEventsRequest"
+                                "$ref": "#/components/schemas/PublishEventItem"
                             },
                             "example": [
                                 {
@@ -225325,50 +225325,48 @@
                 ]
             },
             "PublishEventsRequest": {
-        "type": "object",
-        "description": "Request body for POST /events/publish. Send a single event object.",
-        "allOf": [
-            {
-                "$ref": "#/components/schemas/PublishEventItem"
-            }
-        ]
-    },
-    "WebhookPayload": {
-        "type": "object",
-        "description": "Legacy webhook payload (deprecated). Use Publish Events API format (PublishEventsRequest) instead.",
-        "properties": {
-            "message": {
-                "type": "string"
+                "type": "array",
+                "description": "Request body for POST /events/publish. Send an array of event objects.",
+                "items": {
+                    "$ref": "#/components/schemas/PublishEventItem"
+                }
             },
-            "event_name": {
-                "type": "string",
-                "enum": [
-                    "lms_user_graded"
-                ]
+            "WebhookPayload": {
+                "type": "object",
+                "description": "Legacy webhook payload (deprecated). Use Publish Events API format (PublishEventsRequest) instead.",
+                "properties": {
+                    "message": {
+                        "type": "string"
+                    },
+                    "event_name": {
+                        "type": "string",
+                        "enum": [
+                            "lms_user_graded"
+                        ]
+                    },
+                    "timestamp": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                }
             },
-            "timestamp": {
-                "type": "string",
-                "format": "date-time"
-            }
-        }
-    },
-    "UsergradedMessage": {
-        "type": "object",
-        "description": "Content of the message field for lms_user_graded events (dynamically generated from observer code)",
-        "properties": {
-            "eventid": {
-                "type": "string",
-                "description": "Unique identifier for this event instance"
-            },
-            "timestamp": {
-                "type": "integer",
-                "description": "Unix timestamp of the event"
-            }
-        },
-        "example": {
-            "eventid": "12345678901234567890",
-            "timestamp": 1792625008
-        }
+            "UsergradedMessage": {
+                "type": "object",
+                "description": "Content of the message field for lms_user_graded events (dynamically generated from observer code)",
+                "properties": {
+                    "eventid": {
+                        "type": "string",
+                        "description": "Unique identifier for this event instance"
+                    },
+                    "timestamp": {
+                        "type": "integer",
+                        "description": "Unix timestamp of the event"
+                    }
+                },
+                "example": {
+                    "eventid": "12345678901234567890",
+                    "timestamp": 1792625008
+                }
             }
         }
     }
